@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo">
+    #{msgs.usr_tituloOperacionAlta}
+	</ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">	
+			<h:panelGrid columns="2" styleClass="formTable">
+			
+				#{msgs.usr_ID}
+  				<h:panelGroup>
+					<h:inputText value="#{alumno_controller.alumno.user}" required="true"
+						requiredMessage="#{msgs.formAlta_iduser_requiredMessage}"
+						validatorMessage="#{msgs.usuarioYaExiste}"
+						id="iduser">
+						<f:validator validatorId="presentation.validators.NewUserValidator"  />
+					</h:inputText>
+					<h:message for="iduser" />
+				</h:panelGroup> 
+			 
+				<ui:include src="/snippets/form-alumno.xhtml"/>
+			
+				#{msgs.form_contraseña}
+  				<h:panelGroup>
+					<h:inputSecret  value="#{alumno_controller.alumno.pass}" required="true"
+					id="pass" >
+						<f:validateLength maximum="20" />
+					</h:inputSecret>
+					<h:message for="pass" />
+				</h:panelGroup>
+  
+     			#{msgs.form_repContraseña}
+  				<h:panelGroup>
+					<h:inputSecret  required="true"
+						requiredMessage="#{msgs.twoPassNotEqual}" 
+						id="repeatPass" >
+						<f:validateLength maximum="20" />
+						<f:attribute name="equalsTo" value="form-principal:pass"/>
+						<f:validator validatorId="presentation.validators.TwoPassValidator"  />   
+					</h:inputSecret>
+					<h:message for="repeatPass" />
+				</h:panelGroup>
+			</h:panelGrid>
+       		<h:commandButton value="#{msgs.usr_Salvar}" action="#{alumno_controller.addAlumno}">  
+     			<!-- Ojo que aquí render tiene que incluir todo el formulario 
+     			ya que los mensajes de error pueden ser renderizados también por Ajax de form implícita -->              
+     			<f:ajax execute="@form" render="@form :form-pie"/>                   
+  			</h:commandButton>                  	
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+		<ui:include src="/snippets/pie-idiomas-casa.xhtml"/>
+	</ui:define>
+</ui:composition>

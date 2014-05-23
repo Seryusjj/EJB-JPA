@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<named-query name="User.findAllUser">
+		<query>select a from User a</query>
+	</named-query>
+	<!-- Asignatura querys -->
+	<named-query name="Asignaturas.findAllAsignaturas">
+		<query>select a from Asignatura a</query>
+	</named-query>
+
+	<named-query name="Asignaturas.findAsignaturasByProfesorId">
+		<query>select a from Asignatura a where a.id in (select i.asignatura.id from Imparte i where i.profesor.id = (?1) )</query>
+	</named-query>
+
+	<!-- Profesores querys -->
+	<named-query name="Profesores.findAllProfesores">
+		<query>select a from Profesor a</query>
+	</named-query>
+
+	<named-query name="Profesores.findProfesoreByUserId">
+		<query>select a from Profesor a where a.user = (?1)</query>
+	</named-query>
+
+	<named-query name="Profesores.findProfesoresByAsignaturaId">
+		<query>select p from Profesor p where p.user in (select i.profesor.user from Imparte i where i.asignatura.id = (?1) )</query>
+	</named-query>
+
+	<!-- Alumnos querys -->
+	<named-query name="Alumnos.findAllAlumnos">
+		<query>select a from Alumno a</query>
+	</named-query>
+
+	<named-query name="Alumnos.findAlumnoById">
+		<query>select a from Alumno a where a.user = (?1)</query>
+	</named-query>
+
+
+	<!-- Matriculaods querys -->
+
+	<named-query name="Matriculados.findMatriculaodsByAlumnoId">
+		<query>select m from Matriculado m where m.alumno.id  = (?1) </query>
+	</named-query>
+
+	<!-- admin querys -->
+	<named-query name="Admin.findAllAdministrators">
+		<query>select a from Admin a</query>
+	</named-query>
+
+	<named-query name="Admin.findlAdminByUserId">
+		<query>select a from Admin a where a.user = (?1)</query>
+	</named-query>
+
+
+
+
+</entity-mappings>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+
+	<navigation-rule>
+		<from-view-id>/restricted/alumno/editForm.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{alumno_controller.updateAlumno}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/exitoCambioPass.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{alumno_controller.updateAlumno}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/restricted/alumno/*.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{settings.goHome}</from-action>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/restricted/alumno/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/restricted/admin/*.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{settings.goHome}</from-action>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/restricted/admin/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/restricted/profesor/*.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{settings.goHome}</from-action>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/restricted/profesor/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/restricted/admin/matricularAlumno.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{matriculado_controller.onload}</from-action>
+			<from-outcome>ok</from-outcome>
+			<to-view-id>/restricted/admin/matricularAlumno.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{matriculado_controller.onload}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{matriculado_controller.delete}</from-action>
+			<from-outcome>/restricted/admin/index</from-outcome>
+			<to-view-id>/restricted/admin/index.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{matriculado_controller.delete}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/restricted/alumno/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{matriculado_controller.onload}</from-action>
+			<from-outcome>ok</from-outcome>
+			<to-view-id>/restricted/alumno/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+
+
+	<navigation-rule>
+		<from-view-id>/restricted/alumno/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{profesor_controller.listadoProfesoresByAsignaturaId}</from-action>
+			<from-outcome>listadoAsignaturas</from-outcome>
+			<to-view-id>/restricted/alumno/index.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{profesor_controller.listadoProfesoresByAsignaturaId}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/restricted/admin/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{asignatura_controller.listadoPublico}</from-action>
+			<from-outcome>listadoAsignaturas</from-outcome>
+			<to-view-id>/restricted/admin/gestionAsignaturas.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{asignatura_controller.listadoPublico}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+	<navigation-rule>
+		<from-view-id>/restricted/admin/editAsignatura.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{asignatura_controller.salva}</from-action>
+			<from-outcome>ok</from-outcome>
+			<to-view-id>/restricted/admin/gestionAsignaturas.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{asignatura_controller.update}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/restricted/admin/gestionAsignaturas.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{asignatura_controller.update}</from-action>
+			<from-outcome>listadoAsignaturas</from-outcome>
+			<to-view-id>/restricted/admin/gestionAsignaturas.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{asignatura_controller.update}</from-action>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+
+</faces-config>

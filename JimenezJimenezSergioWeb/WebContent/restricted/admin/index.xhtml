@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo">  #{msgs.admin_index_titulo} </ui:define>
+
+	<ui:define name="cuerpo">
+	<h2>#{msgs.admin_index_welcome}</h2>
+		<h:form id="form-principal">
+
+		<ul>
+			<li><h:commandLink value="#{msgs.admin_index_link_usuarios}" action="#{user_controller.gestionUsusarios}"/></li>
+			<li><h:commandLink value="#{msgs.admin_index_link_asignaturas}" action="#{asignatura_controller.listadoPublico}"/></li>
+			<li><h:commandLink value="#{msgs.admin_index_link_matricular}" action="#{alumno_controller.listadoAlumnos}" actionListener="#{asignatura_controller.iniciaAsignaturas}"/></li>
+		</ul>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+     	<ui:include src="/snippets/pie-idiomas.xhtml"/>
+	</ui:define>
+</ui:composition>

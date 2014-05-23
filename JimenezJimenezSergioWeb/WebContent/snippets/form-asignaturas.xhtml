@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+			<h:panelGrid columns="2" styleClass="formTable">
+	 
+				#{msgs.admin_asignaturas_form_curso}
+  				<h:panelGroup>
+					<h:inputText value="#{asignatura_controller.asignatura.curso}" required="true"
+						validatorMessage="#{msgs.elcursoDebeserUnNumero}"
+						id="curso" converter="javax.faces.Integer">
+					</h:inputText>
+					<h:message for="curso" />
+				</h:panelGroup>
+  
+ 				#{msgs.admin_asignaturas_form_nombre}
+  				<h:panelGroup>
+					<h:inputText value="#{asignatura_controller.asignatura.nombre}" required="true"
+						requiredMessage="#{msgs.formAlta_apellidos_requiredMessage}"
+						validatorMessage="#{msgs.formAlta_apellidos_validatorMessage}"
+						id="nombre">
+						<f:validateLength maximum="40" />
+					</h:inputText>
+					<h:message for="nombre" />
+				</h:panelGroup>
+  
+  				#{msgs.admin_asignaturas_form_creditos}
+  				<h:panelGroup>
+					<h:inputText value="#{asignatura_controller.asignatura.numerocreditos}" required="true"
+						validatorMessage="#{msgs.debeSerNumerDecimal}"
+						id="creditos" converter="javax.faces.Double">
+					</h:inputText>
+					<h:message for="creditos" />
+				</h:panelGroup>
+			</h:panelGrid>
+</ui:composition>

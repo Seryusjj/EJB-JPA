@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">	
+  		#{msgs.form_nombre} 
+  		<h:panelGroup>
+			<h:inputText value="#{profesor_controller.profesor.name}" required="true"
+				requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_nombre_validatorMessage}"
+				id="nombre">
+				<f:validateLength maximum="20" />
+			</h:inputText>
+			<h:message for="nombre" />
+		</h:panelGroup>
+  
+ 		 #{msgs.form_apellidos} 
+  		<h:panelGroup>
+			<h:inputText value="#{profesor_controller.profesor.surname}" required="true"
+				requiredMessage="#{msgs.formAlta_apellidos_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_apellidos_validatorMessage}"
+				id="apellidos">
+				<f:validateLength maximum="40" />
+			</h:inputText>
+			<h:message for="apellidos" />
+		</h:panelGroup>
+  
+
+  
+  		#{msgs.form_correo}
+  		<h:panelGroup>
+			<h:inputText value="#{profesor_controller.profesor.mail}" required="true"
+				requiredMessage="#{msgs.formAlta_correo_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_correo_validatorMessage}"
+				id="correo">
+				<f:validateRegex pattern=".+@.+\.[a-z]+" />
+			</h:inputText>
+			<h:message for="correo" />
+		</h:panelGroup>
+		
+		
+			#{msgs.form_contraseña}
+  			<h:panelGroup>
+				<h:inputSecret  value="#{profesor_controller.profesor.pass}" required="true"
+					id="pass" >
+					<f:validateLength maximum="20" />
+					 
+				</h:inputSecret>
+				<h:message for="pass" />
+			</h:panelGroup>
+  
+     		#{msgs.form_repContraseña}
+  			<h:panelGroup>
+				<h:inputSecret  required="true"
+					requiredMessage="#{msgs.twoPassNotEqual}" 
+					id="repeatPass" >
+					<f:validateLength maximum="20" />
+					<f:attribute name="equalsTo" value="form-principal:pass"/>
+					<f:validator validatorId="presentation.validators.TwoPassValidator"  />   
+				</h:inputSecret>
+				<h:message for="repeatPass" />
+			</h:panelGroup>
+
+</ui:composition>

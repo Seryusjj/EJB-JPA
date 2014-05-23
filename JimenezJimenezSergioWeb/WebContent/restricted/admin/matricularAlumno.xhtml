@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo"> #{msgs.admin_matricular_titulo} </ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">
+		<br/>
+			<!-- Sacamos un listado de Alumnos  -->
+			<h2>#{msgs.admin_matricular_alumnos}</h2>
+			<h:dataTable var="user" value="#{alumno_controller.alumnos}" border="1">
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_numeroId}</f:facet> #{user.id}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_user}</f:facet>#{user.user}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_nombre}</f:facet> #{user.name}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_apellidos}</f:facet>#{user.surname}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_correo}</f:facet>#{user.mail}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_alumnos_tabla_activo}</f:facet>#{user.active}</h:column>
+				<h:column>
+					<h:commandButton  value="#{msgs.admin_matricular_bt_matricular}" action="#{matriculado_controller.onload(user.id)}">
+						<f:setPropertyActionListener target="#{alumno_controller.alumno}" value="#{user}"/>
+						<f:ajax execute="@this" render="@form"/>
+					</h:commandButton>
+				</h:column>			
+			</h:dataTable>  
+			<br/>
+			
+			<!-- Mostrar todas las asignaturas del sistema -->
+			<h3>#{msgs.admin_matricular_asignaturas}</h3>
+			<h:dataTable var="asignatura" value="#{asignatura_controller.asignaturas}" rendered="#{asignatura_controller.asignaturas!=null}" border="1">
+			<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_id}</f:facet>#{asignatura.id}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_nombre}</f:facet>#{asignatura.nombre}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_curso}</f:facet>#{asignatura.curso}</h:column>
+				<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_creditos}</f:facet>#{asignatura.numerocreditos}</h:column>
+			</h:dataTable> 
+			<br/>
+			
+			<!-- Tras hacer click en matricular en alguno de los alumnos se mostraran las asignaturas de dicho alumno de las que se porá desmatricular  -->
+			<h:outputText value = "#{msgs.admin_matricular_asignaturasAlumno} #{alumno_controller.alumno.name}" rendered= "#{matriculado_controller.matriculados!=null}"/>
+  				<h:dataTable var="matricula" value="#{matriculado_controller.matriculados}" rendered = "#{matriculado_controller.matriculados!=null}" border="1">
+					<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_nombre}</f:facet>#{matricula.asignatura.nombre}</h:column>
+					<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_curso}</f:facet>#{matricula.asignatura.curso}</h:column>
+					<h:column><f:facet name="header">#{msgs.admin_asignatura_tabla_creditos}</f:facet>#{matricula.asignatura.numerocreditos}</h:column>
+					<h:column><f:facet name="header">#{msgs.admin_matricular_tabla_nota}</f:facet>#{matricula.calificacion}</h:column>
+					<h:column>
+						<f:facet name="header">#{msg.tablaDesmatricular}</f:facet>
+						<h:commandButton action="#{matriculado_controller.delete(matricula)}" type="submit" value="#{msgs.admin_matricular_bt_desmatricular}" immediate="true"
+						disabled="#{!matricula.canBeDeleted}">
+						</h:commandButton>
+					</h:column>
+				</h:dataTable>  
+  			 
+			<!-- Campitos para matricular a un alumno -->
+			<h:panelGrid columns="2" styleClass="formTable" rendered="#{alumno_controller.alumno!=null}">
+				#{msgs.admin_matricular_indicaciones}
+  				<h:panelGroup>
+					<h:inputText value="#{alumno_controller.idAsignatura}"
+						requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
+						id="idAsignatura">
+					</h:inputText>
+					<h:message for="idAsignatura" />
+				</h:panelGroup>
+			</h:panelGrid>
+			
+			<h:commandButton value="#{msgs.admin_matricular_bt_guardar}" action="#{alumno_controller.AddAsignaturaToAlumno}" 
+		     	rendered="#{alumno_controller.alumno!=null}"/>  
+		     	
+		</h:form>
+	</ui:define>
+			
+	<ui:define name="pie">
+ 	  <ui:include src="/snippets/pie-idiomas-casa.xhtml"/>
+	</ui:define>
+  
+</ui:composition>

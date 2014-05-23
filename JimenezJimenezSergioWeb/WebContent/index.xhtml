@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+    
+	<ui:define name="titulo">  #{msgs.index_tituloOpciones} </ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">
+			<h:commandLink value="#{msgs.index_enlaceLogueo}" action= "logueo"/> 
+  			<br/>
+  			<h:commandLink value="#{msgs.index_enlaceListadoProfesores}" action="#{profesor_controller.listadoPublico}"
+  			actionListener="#{asignatura_controller.setAsignaturasToNull}"/>
+  			<br/>
+  			<h:commandLink value="#{msgs.index_enlaceListadoAsignaturas}" action="#{asignatura_controller.listadoPublico}" 
+  				actionListener="#{profesor_controller.setProfesoresToNull}"/>
+  			<br/>
+  			<h:commandLink value="#{msgs.index_enlaceAltaAlumno}" action="altaAlumnoForm" actionListener="#{alumno_controller.iniciaAlumno}"/>
+  			<br/>
+  			<h:commandLink value="#{msgs.index_enlaceAltaProfesor}" action="altaProfesorForm" actionListener="#{profesor_controller.iniciaProfesor}"/>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+     	<ui:include src="/snippets/pie-idiomas.xhtml"/>
+	</ui:define>
+</ui:composition>

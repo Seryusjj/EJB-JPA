@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template-general.xhtml">
+	<ui:define name="titulo"> #{msgs.login_form_tittle} </ui:define>
+	<ui:define name="cuerpo">
+		<center>
+			<h:form id="form-principal">
+				<ui:include src="/snippets/login-form.xhtml" />
+				<h:panelGrid columns="2">
+
+				</h:panelGrid>
+				<h:commandButton value="#{msgs.login_form_button_send}" action="#{login.verify}">
+					<f:ajax execute="@form" render="@form :form-pie :form-principal" />
+				</h:commandButton>
+				<br />
+			</h:form>
+			
+		</center>
+	</ui:define>
+	<ui:define name="pie">
+		<ui:include src="/snippets/pie-idiomas-casa.xhtml" />
+	</ui:define>
+</ui:composition>

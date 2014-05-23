@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo"> #{msgs.tituloOperacionEdicion}</ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">
+			<h:panelGrid columns="2" styleClass="formTable">
+		
+		
+				<ui:include src="/snippets/form-alumno.xhtml"/>	
+			
+				#{msgs.alumno_form_vieja_pass}
+  				<h:panelGroup>
+					<h:inputSecret  required="true" value="#{alumno_controller.alumno.pass}"
+						requiredMessage="#{msgs.incorrectPass}"
+						id="oldPass" >
+						<f:validateLength maximum="20" />
+						<f:attribute name="actualPass" value="#{LOGGEDIN_USER.pass}"/>
+						<f:validator validatorId="presentation.validators.OldPassValidator"  />
+					</h:inputSecret>
+					<h:message for="oldPass" />
+				</h:panelGroup>
+			
+				#{msgs.alumno_form_nueva_pass}
+  				<h:panelGroup>
+					<h:inputSecret  value="#{alumno_controller.alumno.pass}" required="false"
+				    
+						id="pass" >
+						<f:validateLength maximum="20" />
+					 
+					</h:inputSecret>
+					<h:message for="pass" />
+				</h:panelGroup>
+  
+     			#{msgs.alumno_form_rep_nueva_pass}
+  				<h:panelGroup>
+					<h:inputSecret  required="false"
+						requiredMessage="#{msgs.twoPassNotEqual}" 
+						id="repeatPass" >
+						<f:validateLength maximum="20" />
+						<f:attribute name="equalsTo" value="form-principal:pass"/>
+						<f:validator validatorId="presentation.validators.TwoPassValidator"  />   
+					</h:inputSecret>
+					<h:message for="repeatPass" />
+				</h:panelGroup>
+			
+			</h:panelGrid>
+
+     	<h:commandButton value="#{msgs.alumno_form_bt_guardar}" action="#{alumno_controller.updateAlumno}"/>                 
+	</h:form>	
+</ui:define>
+
+	<ui:define name="pie">
+ 	  <ui:include src="/snippets/pie-idiomas-casa.xhtml"/>
+	</ui:define>
+  
+</ui:composition>

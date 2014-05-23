@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13967908429521" configfile="/JimenezJimenezSergio/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="restricted/alumno/editForm.xhtml" x="554" y="360" id="pf13970774792623" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf13970774792624 pf13970775409616" path="/restricted/alumno/editForm.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="exitoCambioPass.xhtml" x="770" y="360" id="pf13970774792625" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13970774792624" path="/exitoCambioPass.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="770" y="765" id="pf13970775409617" referenceLink="//@navigationRule.9/@navigationCase.1/@toViewId|" inlinks="pf13970775409616 pf13971163308870 pf13971163308871 pf13971211733478 pf13971397039380 pf13971459339300 pf13971459339301" path="/error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/alumno/index.xhtml" x="554" y="1170" id="pf13971163308882" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf13971163308883 pf13971163308870 pf139714009051813" inlinks="pf13971163308883 pf13971397039381 pf139714009051813" path="/restricted/alumno/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/a/index.xhtml" x="338" y="562" id="pf13971163308884" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf13971163308871 pf13971163308885" inlinks="pf13971397039382 pf13971459339302" path="/restricted/admin/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/admingestionAsignaturas.xhtml/" x="554" y="765" id="pf13971163308886" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf13971397039393 pf13971397039380" inlinks="pf13971163308885 pf13971211733479 pf13971397039393" path="/restricted/admin/gestionAsignaturas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/admin/editAsignatura.xhtml" x="338" y="946" id="pf139712117334710" referenceLink="//@navigationRule.8/@fromViewId|" outlinks="pf13971211733479 pf13971211733478" path="/restricted/admin/editAsignatura.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/alumno/*.xhtml" x="338" y="1330" id="pf13971397039394" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf13971397039381" path="/restricted/alumno/*.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/admin/*.xhtml" x="122" y="562" id="pf13971397039395" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf13971397039382" path="/restricted/admin/*.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/profesor/*.xhtml" x="122" y="178" id="pf13971397039396" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf13971397039397" path="/restricted/profesor/*.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/profesor/index.xhtml" x="338" y="178" id="pf13971397039398" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf13971397039397" path="/restricted/profesor/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="restricted/admin/matricularAlumno.xhtml" id="pf139713980129911" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf139713980129912 pf13971459339300 pf13971459339302 pf13971459339301" inlinks="pf139713980129912" path="/restricted/admin/matricularAlumno.xhtml"/>
+  <links id="pf13970774792624" target="pf13970774792625" source="pf13970774792623" outcome="success" fromaction="#{alumno_controller.updateAlumno}"/>
+  <links id="pf13970775409616" target="pf13970775409617" source="pf13970774792623" outcome="error" fromaction="#{alumno_controller.updateAlumno}"/>
+  <links id="pf13971163308870" target="pf13970775409617" source="pf13971163308882" outcome="error" fromaction="#{profesor_controller.listadoProfesoresByAsignaturaId}"/>
+  <links id="pf13971163308871" target="pf13970775409617" source="pf13971163308884" outcome="error" fromaction="#{asignatura_controller.listadoPublico}"/>
+  <links id="pf13971163308885" target="pf13971163308886" source="pf13971163308884" outcome="listadoAsignaturas" fromaction="#{asignatura_controller.listadoPublico}"/>
+  <links id="pf13971211733479" target="pf13971163308886" source="pf139712117334710" outcome="ok" fromaction="#{asignatura_controller.salva}"/>
+  <links id="pf13971211733478" target="pf13970775409617" source="pf139712117334710" outcome="error" fromaction="#{asignatura_controller.update}"/>
+  <links id="pf13971397039381" target="pf13971163308882" source="pf13971397039394" outcome="index" fromaction="#{settings.goHome}"/>
+  <links id="pf13971397039382" target="pf13971163308884" source="pf13971397039395" outcome="index" fromaction="#{settings.goHome}"/>
+  <links id="pf13971397039397" target="pf13971397039398" source="pf13971397039396" outcome="index" fromaction="#{settings.goHome}"/>
+  <links id="pf13971397039380" target="pf13970775409617" source="pf13971163308886" outcome="error" fromaction="#{asignatura_controller.update}"/>
+  <links id="pf13971163308883" target="pf13971163308882" source="pf13971163308882" outcome="ok" fromaction="#{matriculado_controller.onload}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf13971397039393" target="pf13971163308886" source="pf13971163308886" outcome="listadoAsignaturas" fromaction="#{asignatura_controller.update}">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf139713980129912" target="pf139713980129911" source="pf139713980129911" outcome="ok" fromaction="#{matriculado_controller.onload}"/>
+  <links id="pf139714009051813" target="pf13971163308882" source="pf13971163308882" outcome="listadoAsignaturas" fromaction="#{profesor_controller.listadoProfesoresByAsignaturaId}"/>
+  <links id="pf13971459339300" target="pf13970775409617" source="pf139713980129911" outcome="error" fromaction="#{matriculado_controller.onload}"/>
+  <links id="pf13971459339302" target="pf13971163308884" source="pf139713980129911" outcome="/restricted/admin/index" fromaction="#{matriculado_controller.delete}"/>
+  <links id="pf13971459339301" target="pf13970775409617" source="pf139713980129911" outcome="error" fromaction="#{matriculado_controller.delete}"/>
+</pageflow:Pageflow>

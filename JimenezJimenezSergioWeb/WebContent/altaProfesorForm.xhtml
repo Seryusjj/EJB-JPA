@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo">
+    	#{msgs.usr_tituloOperacionAlta}
+	</ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">
+			<h:panelGrid columns="2" styleClass="formTable">
+			#{msgs.usr_ID}
+  			<h:panelGroup>
+				<h:inputText value="#{profesor_controller.profesor.user}" required="true"
+					requiredMessage="#{msgs.formAlta_iduser_requiredMessage}"
+					validatorMessage="#{msgs.usuarioYaExiste}"
+					id="iduser">
+					<f:validator validatorId="presentation.validators.NewUserValidator"  />
+				</h:inputText>
+				<h:message for="iduser" />
+			</h:panelGroup>  
+			
+			<ui:include src="/snippets/form-profesor.xhtml"/>
+			</h:panelGrid>
+
+     		<h:commandButton value="#{msgs.usr_Salvar}" action="#{profesor_controller.addProfesor}">  
+     			<!-- Ojo que aquí render tiene que incluir todo el formulario 
+     			ya que los mensajes de error pueden ser renderizados también por Ajax de form implícita -->              
+     			<f:ajax execute="@form" render="@form :form-pie"/>                   
+  			</h:commandButton>                  
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+ 	  <ui:include src="/snippets/pie-idiomas-casa.xhtml"/>
+	</ui:define>
+  
+</ui:composition>

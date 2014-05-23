@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+  		#{msgs.form_nombre} 
+  		<h:panelGroup>
+			<h:inputText value="#{alumno_controller.alumno.name}" required="true"
+				requiredMessage="#{msgs.formAlta_nombre_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_nombre_validatorMessage}"
+				id="nombre">
+				<f:validateLength maximum="20" />
+			</h:inputText>
+			<h:message for="nombre" />
+		</h:panelGroup>
+  
+ 		 #{msgs.form_apellidos}
+  		<h:panelGroup>
+			<h:inputText value="#{alumno_controller.alumno.surname}" required="true"
+				requiredMessage="#{msgs.formAlta_apellidos_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_apellidos_validatorMessage}"
+				id="apellidos">
+				<f:validateLength maximum="40" />
+			</h:inputText>
+			<h:message for="apellidos" />
+		</h:panelGroup>
+  
+
+  
+  		#{msgs.form_correo}
+  		<h:panelGroup>
+			<h:inputText value="#{alumno_controller.alumno.mail}" required="true"
+				requiredMessage="#{msgs.formAlta_correo_requiredMessage}"
+				validatorMessage="#{msgs.formAlta_correo_validatorMessage}"
+				id="correo">
+				<f:validateRegex pattern=".+@.+\.[a-z]+" />
+			</h:inputText>
+			<h:message for="correo" />
+		</h:panelGroup>
+
+		
+		
+		
+		
+</ui:composition>

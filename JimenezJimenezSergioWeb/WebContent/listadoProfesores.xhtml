@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template-general.xhtml">
+	<ui:define name="titulo"> #{msgs.listado_profesor_titulo} </ui:define>
+	<ui:define name="cuerpo">
+		<h:form id="form-principal">
+			<h:dataTable var="profesor" value="#{profesor_controller.profesores}" border="1">
+				<h:column><f:facet name="header">#{msgs.listado_profesor_tabla_nombre}</f:facet>#{profesor.name}</h:column>
+				<h:column><f:facet name="header">#{msgs.listado_profesor_tabla_apellidos}</f:facet>#{profesor.surname}</h:column>
+				<h:column><f:facet name="header">#{msgs.listado_profesor_tabla_correo}</f:facet>#{profesor.mail}</h:column>
+				<h:column>
+					<h:commandButton action="#{asignatura_controller.listadoAsignaturasByProfesorId(profesor.id)}" 
+						type="submit" value="#{msgs.listado_profesores_bt_Mostrar}" immediate="true">
+						<f:setPropertyActionListener target="#{profesor_controller.profesor}" value="#{profesor}"/>
+						<f:ajax execute="@this" render="@form"/>
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+			<br/>
+			<section class = "queryResult">
+
+				<h:outputText value="Asignaturas impartidas por #{profesor_controller.profesor.name}" rendered="#{asignatura_controller.asignaturas!=null}"/>
+				<h:dataTable var="asignatura" value="#{asignatura_controller.asignaturas}" rendered="#{asignatura_controller.asignaturas!=null}" border="1">
+					<h:column><f:facet name="header">#{msgs.listado_asignatura_tabla_nombre}</f:facet>#{asignatura.nombre}</h:column>
+					<h:column><f:facet name="header">#{msgs.listado_asignatura_tabla_curso}</f:facet>#{asignatura.curso}</h:column>
+					<h:column><f:facet name="header">#{msgs.listado_asignatura_tabla_creditos}</f:facet>#{asignatura.numerocreditos}</h:column>
+				</h:dataTable>    
+			</section>           
+		</h:form>
+	</ui:define>
+
+	<ui:define name="pie">
+ 	  <ui:include src="/snippets/pie-idiomas-casa.xhtml"/>
+	</ui:define>
+  
+</ui:composition>
