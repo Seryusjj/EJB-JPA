@@ -6,38 +6,19 @@ import business.AsignaturasService;
 import business.UserService;
 import business.MatriculadosService;
 import business.ProfesoresService;
-import business.impl.AdminServiceImpl;
-import business.impl.AlumnosServiceImpl;
-import business.impl.AsignaturasServiceImpl;
-import business.impl.UserServiceImpl;
-import business.impl.MatriculadosServiceImpl;
-import business.impl.ProfesorServiceImpl;
 
 
-public class ServicesFactory {
-	public static AlumnosService getAlumnosService() {
-		return new AlumnosServiceImpl();
-	}
 
-	public static UserService getUserService() {
-		// TODO Auto-generated method stub
-		return new UserServiceImpl();
-	}
+public interface ServicesFactory {
+	public  AlumnosService getAlumnosService();
+
+	public  UserService getUserService() ;
 	
-	public static AdminService getAdminService(){
-		return new AdminServiceImpl();
-	}
+	public  AdminService getAdminService();
 	
-	public static ProfesoresService getProfesoresService(){
-		return new ProfesorServiceImpl();
-		
-	}
+	public  ProfesoresService getProfesoresService();
 	
-	public static AsignaturasService getAsignaturasService(){
-		return new AsignaturasServiceImpl();
-	}
+	public  AsignaturasService getAsignaturasService();
 	
-	public static MatriculadosService getMatriculadosService(){
-		return new MatriculadosServiceImpl();
-	}
+	public  MatriculadosService getMatriculadosService();
 }

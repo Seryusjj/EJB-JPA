@@ -1,22 +1,16 @@
 package persistence;
 
-
-
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
-
 public class Jpa {
 
 	private static EntityManagerFactory emf = null;
-	private static ThreadLocal<EntityManager> emThread = 
-		new ThreadLocal<EntityManager>();
-	
+	private static ThreadLocal<EntityManager> emThread = new ThreadLocal<EntityManager>();
+
 	public static EntityManager createEntityManager() {
 		EntityManager entityManager = getEmf().createEntityManager();
 		emThread.set(entityManager);
@@ -28,7 +22,7 @@ public class Jpa {
 	}
 
 	private static EntityManagerFactory getEmf() {
-		if (emf == null){
+		if (emf == null) {
 
 			emf = jndiFind("java:/Notaneitor");
 		}
@@ -39,13 +33,13 @@ public class Jpa {
 		Context ctx;
 		try {
 			ctx = new InitialContext();
-			
+
 			return (EntityManagerFactory) ctx.lookup(name);
-			
+
 		} catch (NamingException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
 
 }

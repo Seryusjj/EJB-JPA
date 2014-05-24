@@ -2,34 +2,78 @@ package business.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
+
+import persistence.Jpa;
 import model.Matriculado;
 import model.exceptions.BusinessException;
-import business.MatriculadosService;
-
+import business.impl.ejbinterfaces.MatriculadosServiceLocal;
+import business.impl.ejbinterfaces.MatriculadosServiceRemote;
 import business.impl.matriculado.AddMatricula;
 import business.impl.matriculado.DeleteMatricula;
 import business.impl.matriculado.FindMatriculadosByAlumnoId;
 
-public class MatriculadosServiceImpl implements MatriculadosService{
+@Stateless
+@TransactionManagement(value=TransactionManagementType.BEAN)
+public class MatriculadosServiceImpl implements MatriculadosServiceLocal,MatriculadosServiceRemote{
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Matriculado> findMatriculadosByAlumnoId(Long id)
 			throws BusinessException {
 		// TODO Auto-generated method stub
-		return (List<Matriculado>) new CommandExecuter().execute(new FindMatriculadosByAlumnoId(id));
+		return (List<Matriculado>) commadExecuter(new FindMatriculadosByAlumnoId(id));
 	}
 
 	@Override
 	public void addMatricula(Long alumno, Long asignatura)
 			throws BusinessException {
-		new CommandExecuter().execute(new AddMatricula(alumno,asignatura));
+		commadExecuter(new AddMatricula(alumno,asignatura));
 		
 	}
 
 	@Override
 	public void delete(Matriculado m) throws BusinessException {
-		new CommandExecuter().execute(new DeleteMatricula(m));
+		commadExecuter(new DeleteMatricula(m));
+		
+	}
+	
+	/**
+	 * Como queremos que las transacciones sean manejadas programaticamente añadimos:
+	 * @TransactionManagement(value=TransactionManagementType.BEAN) e 
+	 * indicamos que desde este metodo se puede hacer commit rollback ...etc 
+	 * @param command
+	 * @return
+	 * @throws BusinessException
+	 */
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
+	private Object commadExecuter(Command command) throws BusinessException{
+		EntityManager em = Jpa.createEntityManager();
+		EntityTransaction trx = em.getTransaction();
+		trx.begin();
+		Object result = null;
+		try {
+			result = command.execute();
+			trx.commit(); 
+		} catch (PersistenceException e) {
+
+			if (trx.isActive()) {
+				trx.rollback();
+			}
+			throw e;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+		return result;
 		
 	}
 

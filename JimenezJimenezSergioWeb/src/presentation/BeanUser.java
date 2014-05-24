@@ -7,7 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import conf.ServicesFactory;
+import conf.Factories;
 import model.Admin;
 import model.User;
 import model.exceptions.BusinessException;
@@ -20,7 +20,6 @@ public class BeanUser implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 
 	private User user;
 	private User[] users;
@@ -41,12 +40,11 @@ public class BeanUser implements Serializable {
 		this.users = users;
 	}
 
-	
 	public String gestionUsusarios() {
 		users = null;
 		try {
 			LinkedList<User> resultado = new LinkedList<User>();
-			List<User> resultado1 = ServicesFactory.getUserService()
+			List<User> resultado1 = Factories.services.getUserService()
 					.findAllUsers();
 			for (User usr : resultado1) {
 				if (!(usr instanceof Admin)) {
@@ -72,7 +70,7 @@ public class BeanUser implements Serializable {
 
 	public String bajaUsuarios(Long id) {
 		try {
-			ServicesFactory.getUserService().removeUser(id);
+			Factories.services.getUserService().removeUser(id);
 			return gestionUsusarios();
 		} catch (BusinessException e) {
 			return "error";
@@ -81,27 +79,26 @@ public class BeanUser implements Serializable {
 
 	public String update() {
 		try {
-			ServicesFactory.getUserService().updateUser(user);
+			Factories.services.getUserService().updateUser(user);
 			gestionUsusarios();
 			return "/restricted/admin/gestionUsuarios";
 		} catch (BusinessException e) {
 			return "error";
 		}
 	}
-	
-	
+
 	public void toggle(User user) {
 		try {
-			if(user.isActive()){
+			if (user.isActive()) {
 				user.setActive(false);
-			}else{
+			} else {
 				user.setActive(true);
 			}
-			ServicesFactory.getUserService().updateUser(user);
+			Factories.services.getUserService().updateUser(user);
 			gestionUsusarios();
 
 		} catch (BusinessException e) {
-			
+
 		}
 	}
 

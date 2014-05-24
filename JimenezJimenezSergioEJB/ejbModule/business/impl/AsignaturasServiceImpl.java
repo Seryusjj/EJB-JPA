@@ -2,31 +2,41 @@ package business.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
+
+import persistence.Jpa;
 import model.Asignatura;
 import model.exceptions.BusinessException;
-import business.*;
 import business.impl.asignatura.AddAsignatura;
 import business.impl.asignatura.DeleteAsignatura;
 import business.impl.asignatura.FindAllAsignaturas;
 import business.impl.asignatura.FindAsignaturaById;
 import business.impl.asignatura.FindAsignaturasByProfesorId;
 import business.impl.asignatura.Update;
-
-public class AsignaturasServiceImpl implements AsignaturasService {
+import business.impl.ejbinterfaces.AsignaturasServiceLocal;
+import business.impl.ejbinterfaces.AsignaturasServiceRemote;
+@Stateless
+@TransactionManagement(value=TransactionManagementType.BEAN)
+public class AsignaturasServiceImpl implements AsignaturasServiceLocal,AsignaturasServiceRemote {
 
 	@Override
 	public Asignatura findAsignaturaById(Long id) throws BusinessException {
 		// TODO Auto-generated method stub
-		return (Asignatura) new CommandExecuter()
-				.execute(new FindAsignaturaById(id));
+		return (Asignatura) commadExecuter(new FindAsignaturaById(id));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Asignatura> findAllAsignaturas() throws BusinessException {
-		// TODO Auto-generated method stub
-		return (List<Asignatura>) new CommandExecuter()
-				.execute(new FindAllAsignaturas());
+		 return (List<Asignatura>) commadExecuter(new FindAllAsignaturas());
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -34,26 +44,57 @@ public class AsignaturasServiceImpl implements AsignaturasService {
 	public List<Asignatura> findAsignaturasByProfesorId(Long id)
 			throws BusinessException {
 		// TODO Auto-generated method stub
-		return (List<Asignatura>) new CommandExecuter()
-				.execute(new FindAsignaturasByProfesorId(id));
+		return (List<Asignatura>) commadExecuter(new FindAsignaturasByProfesorId(id));
 	}
 
 	@Override
 	public void update(Asignatura data) throws BusinessException {
-		new CommandExecuter().execute(new Update(data));
+		commadExecuter(new Update(data));
 
 	}
 
 	@Override
 	public void addAsignatura(Asignatura asignatura) throws BusinessException {
-		new CommandExecuter().execute(new AddAsignatura(asignatura));
+		commadExecuter(new AddAsignatura(asignatura));
 
 	}
 
 	@Override
 	public void deleteAsignatura(Long id) throws BusinessException {
-		new CommandExecuter().execute(new DeleteAsignatura(id));
+		commadExecuter(new DeleteAsignatura(id));
 
+	}
+	
+	/**
+	 * Como queremos que las transacciones sean manejadas programaticamente añadimos:
+	 * @TransactionManagement(value=TransactionManagementType.BEAN) e 
+	 * indicamos que desde este metodo se puede hacer commit rollback ...etc 
+	 * @param command
+	 * @return
+	 * @throws BusinessException
+	 */
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
+	private Object commadExecuter(Command command) throws BusinessException{
+		EntityManager em = Jpa.createEntityManager();
+		EntityTransaction trx = em.getTransaction();
+		trx.begin();
+		Object result = null;
+		try {
+			result = command.execute();
+			trx.commit(); 
+		} catch (PersistenceException e) {
+
+			if (trx.isActive()) {
+				trx.rollback();
+			}
+			throw e;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+		return result;
+		
 	}
 
 }

@@ -5,14 +5,13 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import conf.ServicesFactory;
+import conf.Factories;
 import model.Matriculado;
 import model.exceptions.BusinessException;
 
 @ManagedBean(name = "matriculado_controller")
 @SessionScoped
-public class BeanMatriculados implements Serializable{
-
+public class BeanMatriculados implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
@@ -27,25 +26,24 @@ public class BeanMatriculados implements Serializable{
 	public void setMatriculado(Matriculado matriculado) {
 		this.matriculado = matriculado;
 	}
-	
-	public String onload(Long id){
+
+	public String onload(Long id) {
 		try {
-			this.id=id;
-			matriculados = ServicesFactory.getMatriculadosService().findMatriculadosByAlumnoId(id).toArray(new Matriculado[0]);
-			if(matriculados.length<=0){
-				matriculados=null;
+			this.id = id;
+			matriculados = Factories.services.getMatriculadosService()
+					.findMatriculadosByAlumnoId(id).toArray(new Matriculado[0]);
+			if (matriculados.length <= 0) {
+				matriculados = null;
 			}
 			return "ok";
 		} catch (BusinessException e) {
 			return "error";
 		}
 	}
-	
 
-
-	public String delete(Matriculado m){
+	public String delete(Matriculado m) {
 		try {
-			ServicesFactory.getMatriculadosService().delete(m);
+			Factories.services.getMatriculadosService().delete(m);
 			return "/restricted/admin/index.xhtml";
 		} catch (BusinessException e) {
 			return "error";
@@ -59,9 +57,9 @@ public class BeanMatriculados implements Serializable{
 	public void setMatriculados(Matriculado[] matriculados) {
 		this.matriculados = matriculados;
 	}
-	
-	public void setMatriculadosToNull(){
-		this.matriculados=null;
+
+	public void setMatriculadosToNull() {
+		this.matriculados = null;
 	}
 
 }

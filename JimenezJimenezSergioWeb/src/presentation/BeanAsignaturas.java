@@ -6,6 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import business.AsignaturasService;
+import conf.Factories;
 import conf.ServicesFactory;
 import model.Asignatura;
 import model.exceptions.BusinessException;
@@ -52,7 +54,7 @@ public class BeanAsignaturas implements Serializable {
 
 	public String listadoAsignaturasByProfesorId(Long id) {
 		try {
-			asignaturas = ServicesFactory.getAsignaturasService()
+			asignaturas = Factories.services.getAsignaturasService()
 					.findAsignaturasByProfesorId(id).toArray(new Asignatura[0]);
 			if (asignaturas.length == 0) {
 				asignaturas = null;
@@ -63,15 +65,16 @@ public class BeanAsignaturas implements Serializable {
 			return "error";
 		}
 	}
-	
+
 	public void iniciaAsignaturas(ActionEvent event) {
 		listadoPublico();
 	}
 
 	public String listadoPublico() {
 		try {
-			asignaturas = ServicesFactory.getAsignaturasService()
-					.findAllAsignaturas().toArray(new Asignatura[0]);
+			ServicesFactory fac = Factories.services;
+			AsignaturasService asig = fac.getAsignaturasService();
+			asignaturas = asig.findAllAsignaturas().toArray(new Asignatura[0]);
 			return "listadoAsignaturas";
 		} catch (BusinessException e) {
 			return "error";
@@ -80,7 +83,7 @@ public class BeanAsignaturas implements Serializable {
 
 	public String delete(Asignatura asignatura) {
 		try {
-			ServicesFactory.getAsignaturasService().deleteAsignatura(
+			Factories.services.getAsignaturasService().deleteAsignatura(
 					asignatura.getId());
 		} catch (Exception e) {
 			return "error";
@@ -96,18 +99,19 @@ public class BeanAsignaturas implements Serializable {
 		return "/restricted/admin/editAsignatura";
 	}
 
-	public void resetAsignatura(ActionEvent event){
-		this.asignatura=new Asignatura();
+	public void resetAsignatura(ActionEvent event) {
+		this.asignatura = new Asignatura();
 
 	}
+
 	public String salva() {
 		try {
 			if (asignatura.getId() == null) {
-				ServicesFactory.getAsignaturasService().addAsignatura(
+				Factories.services.getAsignaturasService().addAsignatura(
 						asignatura);
 				listadoPublico();
 			} else {
-				ServicesFactory.getAsignaturasService().update(asignatura);
+				Factories.services.getAsignaturasService().update(asignatura);
 			}
 
 			return "ok";

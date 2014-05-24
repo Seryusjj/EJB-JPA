@@ -3,11 +3,11 @@ package business.impl.user;
 import java.util.List;
 
 
-import persistence.UsuariosFinder;
 
+
+import persistence.UsuariosFinder;
 import model.User;
 import model.exceptions.BusinessException;
-
 import business.impl.Command;
 
 public class FindUserToLogin implements Command {

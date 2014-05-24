@@ -13,7 +13,9 @@ import model.User;
 import model.exceptions.BusinessException;
 import model.types.Roles;
 import business.UserService;
-import conf.ServicesFactory;
+import conf.Factories;
+
+
 
 @ManagedBean(name = "login")
 @SessionScoped
@@ -34,7 +36,7 @@ public class BeanLogin implements Serializable {
 	}
 
 	public String verify() {
-		UserService userService = ServicesFactory.getUserService();
+		UserService userService = Factories.services.getUserService();
 		User user = null;
 		try {
 			user = userService.verify(name, password);

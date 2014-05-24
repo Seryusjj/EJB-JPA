@@ -12,7 +12,7 @@ import javax.faces.validator.ValidatorException;
 
 import model.User;
 import model.exceptions.BusinessException;
-import conf.ServicesFactory;
+import conf.Factories;
 @FacesValidator("presentation.validators.NewUserValidator")
 public class NewUserValidator implements Validator{
 	
@@ -23,7 +23,7 @@ public class NewUserValidator implements Validator{
 		List<User> usr = null;
 		
 		try {
-			usr = ServicesFactory.getUserService().findAllUsers();
+			usr = Factories.services.getUserService().findAllUsers();
 			for(User u : usr){
 				if(u.getUser().equals(newUserName)){
 					showMessage(facesContext);

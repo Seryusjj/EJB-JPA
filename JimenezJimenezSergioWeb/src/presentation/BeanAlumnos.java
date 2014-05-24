@@ -9,10 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import model.Alumno;
-
 import model.User;
 import model.exceptions.BusinessException;
-import conf.ServicesFactory;
+import conf.Factories;
 
 @ManagedBean(name = "alumno_controller")
 @SessionScoped
@@ -22,7 +21,7 @@ public class BeanAlumnos implements Serializable {
 	private Alumno alumno = new Alumno();
 
 	private Alumno[] alumnos = null;
-	
+
 	private Long idAlumno;
 	private Long idAsignatura;
 
@@ -74,7 +73,7 @@ public class BeanAlumnos implements Serializable {
 		alumno.setSurname(bundle.getString("valorDefectoApellidos"));
 		alumno.setMail(bundle.getString("valorDefectoCorreo"));
 	}
-	
+
 	public void iniciaAlumnos(ActionEvent event) {
 		listadoAlumnos();
 	}
@@ -82,7 +81,7 @@ public class BeanAlumnos implements Serializable {
 	public String addAlumno() {
 		try {
 
-			ServicesFactory.getAlumnosService().addAlumno(this.alumno);
+			Factories.services.getAlumnosService().addAlumno(this.alumno);
 			return "exito";
 		} catch (BusinessException e) {
 			return "error";
@@ -98,17 +97,17 @@ public class BeanAlumnos implements Serializable {
 		alumno.setUser(user.getUser());
 		alumno.setActive(true);
 	}
-	
-	
-	public String listadoAlumnos(){
+
+	public String listadoAlumnos() {
 		try {
-			this.alumno=null;
-			this.alumnos = ServicesFactory.getAlumnosService().findAllAlumnos().toArray(new Alumno[0]);
+			this.alumno = null;
+			this.alumnos = Factories.services.getAlumnosService()
+					.findAllAlumnos().toArray(new Alumno[0]);
 			return "/restricted/admin/matricularAlumno";
 		} catch (BusinessException e) {
 			return "error";
 		}
-		
+
 	}
 
 	public String iniciaUpdateAlumnoByItself(User user) {
@@ -119,31 +118,24 @@ public class BeanAlumnos implements Serializable {
 
 	public String updateAlumno() {
 		try {
-			ServicesFactory.getAlumnosService().updateAlumno(alumno);
+			Factories.services.getAlumnosService().updateAlumno(alumno);
 			return "success";
 		} catch (BusinessException e) {
 			return "error";
 		}
 
 	}
-	
 
-	
 	public String AddAsignaturaToAlumno() {
 		try {
-			
-			ServicesFactory.getMatriculadosService().addMatricula(alumno.getId(),idAsignatura);
+
+			Factories.services.getMatriculadosService().addMatricula(
+					alumno.getId(), idAsignatura);
 			return "/restricted/admin/index";
 		} catch (BusinessException e) {
 			return "error";
 		}
 
 	}
-	
 
-
-
-	
-
-	
 }

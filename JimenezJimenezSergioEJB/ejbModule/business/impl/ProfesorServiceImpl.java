@@ -2,27 +2,39 @@ package business.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
+
+import persistence.Jpa;
 import model.Profesor;
 import model.exceptions.BusinessException;
-import business.ProfesoresService;
+import business.impl.ejbinterfaces.ProfesorServiceLocal;
+import business.impl.ejbinterfaces.ProfesorServiceRemote;
 import business.impl.profesor.AddProfesor;
 import business.impl.profesor.FindAllProfesores;
 import business.impl.profesor.FindProfesorByAsignaturaId;
 import business.impl.profesor.FindProfesorById;
 
 
-
-public class ProfesorServiceImpl implements ProfesoresService{
+@Stateless
+@TransactionManagement(value=TransactionManagementType.BEAN)
+public class ProfesorServiceImpl implements ProfesorServiceLocal,ProfesorServiceRemote{
 
 	@Override
 	public Profesor findById(Long id) throws BusinessException {
-		Profesor a = (Profesor) new CommandExecuter().execute(new FindProfesorById(id));
+		Profesor a = (Profesor) commadExecuter(new FindProfesorById(id));
 		return  a;
 	}
 
 	@Override
 	public void addProfesor(Profesor profesor) throws BusinessException {
-		new CommandExecuter().execute(new AddProfesor(profesor));
+		commadExecuter(new AddProfesor(profesor));
 		
 	}
 
@@ -30,7 +42,7 @@ public class ProfesorServiceImpl implements ProfesoresService{
 	@Override
 	public List<Profesor> findAllProfesores() throws BusinessException {
 		// TODO Auto-generated method stub
-		return (List<Profesor>) new CommandExecuter().execute(new FindAllProfesores());
+		return (List<Profesor>)  commadExecuter(new FindAllProfesores());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +50,39 @@ public class ProfesorServiceImpl implements ProfesoresService{
 	public List<Profesor> findProfesoresByAsignaturaId(Long id)
 			throws BusinessException {
 		// TODO Auto-generated method stub
-		return (List<Profesor>) new CommandExecuter().execute(new FindProfesorByAsignaturaId(id));
+		return (List<Profesor>)  commadExecuter(new FindProfesorByAsignaturaId(id));
+	}
+	
+	/**
+	 * Como queremos que las transacciones sean manejadas programaticamente añadimos:
+	 * @TransactionManagement(value=TransactionManagementType.BEAN) e 
+	 * indicamos que desde este metodo se puede hacer commit rollback ...etc 
+	 * @param command
+	 * @return
+	 * @throws BusinessException
+	 */
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
+	private Object commadExecuter(Command command) throws BusinessException{
+		EntityManager em = Jpa.createEntityManager();
+		EntityTransaction trx = em.getTransaction();
+		trx.begin();
+		Object result = null;
+		try {
+			result = command.execute();
+			trx.commit(); 
+		} catch (PersistenceException e) {
+
+			if (trx.isActive()) {
+				trx.rollback();
+			}
+			throw e;
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+		return result;
+		
 	}
 
 }
