@@ -35,7 +35,8 @@ public class AsignaturasServiceImpl implements AsignaturasServiceLocal,Asignatur
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Asignatura> findAllAsignaturas() throws BusinessException {
-		 return (List<Asignatura>) commadExecuter(new FindAllAsignaturas());
+		Object result =  commadExecuter(new FindAllAsignaturas());
+		return (List<Asignatura>)result;
 
 	}
 

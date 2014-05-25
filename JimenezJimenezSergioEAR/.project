@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>JimenezJimenezSergioEJB</project>
-		<project>JimenezJimenezSergioEJBClient</project>
 		<project>JimenezJimenezSergioWEB</project>
 	</projects>
 	<buildSpec>

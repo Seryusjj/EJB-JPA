@@ -1,7 +1,2 @@
-/META-INF
-/business
-/conf
-/factories.properties
-/log4j.properties
 /model
-/persistence
+/business

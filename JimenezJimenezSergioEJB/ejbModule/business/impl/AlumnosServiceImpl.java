@@ -46,8 +46,8 @@ public class AlumnosServiceImpl implements AlumnosServiceLocal,AlumnosServiceRem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Alumno> findAllAlumnos() throws BusinessException {
-		
-		return (List<Alumno>) commadExecuter(new FindAllAlumnos());
+		Object result = commadExecuter(new FindAllAlumnos());
+		return (List<Alumno>) result;
 		
 	}
 	

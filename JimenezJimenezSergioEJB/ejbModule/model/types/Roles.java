@@ -1,5 +1,5 @@
 package model.types;
 
-public enum Roles {
+public enum Roles{
 	ADMIN,PROFESOR,ALUMNO
 }

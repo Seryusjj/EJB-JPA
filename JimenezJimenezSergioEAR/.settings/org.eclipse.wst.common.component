@@ -5,9 +5,6 @@
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="JimenezJimenezSergioEJBClient.jar" deploy-path="/" handle="module:/resource/JimenezJimenezSergioEJBClient/JimenezJimenezSergioEJBClient">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="JimenezJimenezSergioWEB.war" deploy-path="/" handle="module:/resource/JimenezJimenezSergioWEB/JimenezJimenezSergioWEB">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
