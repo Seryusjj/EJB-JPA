@@ -2,9 +2,11 @@ package model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Entity
+@XmlRootElement(name = "profesor")
 @DiscriminatorValue("PROFESOR")
 public class Profesor extends User {
 

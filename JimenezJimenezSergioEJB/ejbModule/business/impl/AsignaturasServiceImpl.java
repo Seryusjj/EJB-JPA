@@ -2,11 +2,13 @@ package business.impl;
 
 import java.util.List;
 
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
@@ -22,7 +24,9 @@ import business.impl.asignatura.FindAsignaturasByProfesorId;
 import business.impl.asignatura.Update;
 import business.impl.ejbinterfaces.AsignaturasServiceLocal;
 import business.impl.ejbinterfaces.AsignaturasServiceRemote;
+
 @Stateless
+@WebService(name="AsignaturasService")
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class AsignaturasServiceImpl implements AsignaturasServiceLocal,AsignaturasServiceRemote {
 

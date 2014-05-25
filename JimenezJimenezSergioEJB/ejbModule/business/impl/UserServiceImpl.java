@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
@@ -22,6 +23,7 @@ import business.impl.user.FindUserToLogin;
 import business.impl.user.UpdateUser;
 
 @Stateless
+@WebService(name="UserService")
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class UserServiceImpl implements UserServiceLocal,UserServiceRemote {
 

@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
@@ -21,6 +22,7 @@ import business.impl.matriculado.DeleteMatricula;
 import business.impl.matriculado.FindMatriculadosByAlumnoId;
 
 @Stateless
+@WebService(name="MatriculadosService")
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class MatriculadosServiceImpl implements MatriculadosServiceLocal,MatriculadosServiceRemote{
 

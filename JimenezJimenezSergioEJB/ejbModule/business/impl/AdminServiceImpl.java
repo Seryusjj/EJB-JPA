@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
@@ -19,6 +20,7 @@ import business.impl.ejbinterfaces.AdminServiceLocal;
 import business.impl.ejbinterfaces.AdminServiceRemote;
 
 @Stateless
+@WebService(name="AdminService")
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class AdminServiceImpl implements AdminServiceLocal,AdminServiceRemote{
 

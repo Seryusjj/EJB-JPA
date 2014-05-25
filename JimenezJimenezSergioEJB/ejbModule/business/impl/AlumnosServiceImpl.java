@@ -7,6 +7,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
@@ -20,6 +21,7 @@ import business.impl.ejbinterfaces.AlumnosServiceLocal;
 import business.impl.ejbinterfaces.AlumnosServiceRemote;
 
 @Stateless
+@WebService(name="AlumnosService")
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class AlumnosServiceImpl implements AlumnosServiceLocal,AlumnosServiceRemote{
 

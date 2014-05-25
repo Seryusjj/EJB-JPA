@@ -11,7 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+
+@XmlRootElement(name = "asignatura")
 @Entity
 public class Asignatura implements Serializable{
 	/**
@@ -21,6 +26,7 @@ public class Asignatura implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Transient
 	private boolean canBeDeleted;
 	
@@ -34,10 +40,12 @@ public class Asignatura implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "asignatura")
 	protected Set<Imparte> imparte = new HashSet<Imparte>();
 
+	@XmlTransient
 	public Set<Matriculado> getMatriculados() {
 		return Collections.unmodifiableSet(matriculados);
 	}
 
+	@XmlTransient
 	public boolean isCanBeDeleted() {
 		return !(matriculados.isEmpty()&&imparte.isEmpty());
 	}
@@ -50,6 +58,7 @@ public class Asignatura implements Serializable{
 		return matriculados;
 	}
 
+	@XmlTransient
 	public Set<Imparte> getImparte() {
 		return Collections.unmodifiableSet(imparte);
 	}
@@ -58,6 +67,7 @@ public class Asignatura implements Serializable{
 		return imparte;
 	}
 
+	@XmlElement
 	public String getNombre() {
 		return nombre;
 	}
@@ -66,6 +76,7 @@ public class Asignatura implements Serializable{
 		this.nombre = nombre;
 	}
 
+	@XmlElement
 	public Integer getCurso() {
 		return curso;
 	}
@@ -83,6 +94,7 @@ public class Asignatura implements Serializable{
 
 	}
 
+	@XmlElement
 	public Double getNumerocreditos() {
 		return numerocreditos;
 	}
@@ -98,6 +110,7 @@ public class Asignatura implements Serializable{
 		}
 	}
 
+	@XmlElement
 	public Long getId() {
 		return id;
 	}

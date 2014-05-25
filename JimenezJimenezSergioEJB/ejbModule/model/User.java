@@ -14,8 +14,15 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+
+
 
 @Entity
+@XmlRootElement(name = "user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
 	/**
@@ -28,8 +35,6 @@ public class User implements Serializable {
 	@Transient
 	protected boolean canBeDeleted;
 
-
-
 	protected String user;
 	protected String name;
 	protected String surname;
@@ -37,16 +42,22 @@ public class User implements Serializable {
 	protected String pass;
 	protected boolean active;
 
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "profesor")
 	protected Set<Imparte> imparte = new HashSet<Imparte>();
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "alumno",cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "alumno", cascade = {
+			CascadeType.MERGE, CascadeType.PERSIST })
 	protected Set<Matriculado> matriculados = new HashSet<Matriculado>();
 
 	/**
-	 * si el usuario no esta ni matriculado ni impartiendo asignaturas, podrá ser borrado
+	 * si el usuario no esta ni matriculado ni impartiendo asignaturas, podrá
+	 * ser borrado
+	 * 
 	 * @return
 	 */
+	@XmlTransient
 	public boolean isCanBeDeleted() {
 
 		return (this.matriculados.isEmpty() && this.imparte.isEmpty());
@@ -56,10 +67,11 @@ public class User implements Serializable {
 
 		this.canBeDeleted = canBeDeleted;
 	}
+
+	@XmlElement
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -69,10 +81,12 @@ public class User implements Serializable {
 		return matriculados;
 	}
 
+	@XmlTransient
 	public Set<Matriculado> getMatriculados() {
 		return matriculados;
 	}
 
+	@XmlElement
 	public String getPass() {
 		return pass;
 	}
@@ -118,6 +132,7 @@ public class User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	@XmlTransient
 	public Set<Imparte> getImparte() {
 		return Collections.unmodifiableSet(imparte);
 	}
@@ -126,22 +141,27 @@ public class User implements Serializable {
 		return imparte;
 	}
 
+	@XmlElement
 	public String getUser() {
 		return user;
 	}
 
+	@XmlElement
 	public String getName() {
 		return name;
 	}
 
+	@XmlElement
 	public String getSurname() {
 		return surname;
 	}
 
+	@XmlElement
 	public String getMail() {
 		return mail;
 	}
 
+	@XmlElement
 	public boolean isActive() {
 		return active;
 	}
@@ -180,5 +200,9 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+
+
+	
+	
 
 }

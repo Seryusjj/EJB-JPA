@@ -7,12 +7,16 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.types.MatriculadosKey;
 
 
 
 @Entity
+@XmlRootElement(name = "matriculados")
 @IdClass(MatriculadosKey.class)
 public class Matriculado implements Serializable{
 	/**
@@ -25,9 +29,17 @@ public class Matriculado implements Serializable{
 	@Id
 	@ManyToOne
 	private Asignatura asignatura;
+	
+	private String calificacion;
+	
 	@Transient
 	private boolean canBeDeleted;
 	
+	/**
+	 * La relacion podra ser eliminada siempre que no este calificada
+	 * @return
+	 */
+	@XmlTransient
 	public boolean isCanBeDeleted() {
 		canBeDeleted=calificacion.equals("no-calificado");
 		return canBeDeleted;
@@ -37,8 +49,9 @@ public class Matriculado implements Serializable{
 		this.canBeDeleted = canBeDeleted;
 	}
 
-	private String calificacion;
 	
+	
+	@XmlElement
 	public String getCalificacion() {
 		return calificacion;
 	}
@@ -57,7 +70,6 @@ public class Matriculado implements Serializable{
 
 	public Matriculado() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public  Matriculado(User a, Asignatura as) {
@@ -85,10 +97,12 @@ public class Matriculado implements Serializable{
 		asignatura = null;
 	}
 
+	@XmlElement
 	public User getAlumno() {
 		return alumno;
 	}
 
+	@XmlElement
 	public Asignatura getAsignatura() {
 		return asignatura;
 	}
